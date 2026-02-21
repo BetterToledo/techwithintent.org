@@ -1,0 +1,47 @@
+# Intentional Tech
+
+> A free, ad-free resource helping people build an intentional relationship with technology. The core question: Are you using technology to advance your priorities — or is technology using you? Created by a privacy and AI lawyer for anyone trying to get off autopilot and take control of their attention, time, and digital life.
+
+## Sections
+
+- [Why This Matters](https://techwithintent.org/#why): Explains how the attention economy works, why autopilot is the default, and what passive tech use is doing to your brain, relationships, and life. Includes data visualizations on Instagram feed composition and lifetime screen time.
+- [By the Numbers](https://techwithintent.org/#numbers): Research-backed statistics across five categories — screen time, content manipulation, children's digital footprints, cognitive decline, and data privacy. Sources include Nielsen, Imperva, PNAS Nexus, Gloria Mark (UC Irvine), and the Bratsberg & Rogeberg IQ study.
+- [Where to Start](https://techwithintent.org/#start): Seven concrete, ranked actions anyone can take — from making your phone a phone again to quitting social media to creating a curated, non-algorithmic internet. Each includes a specific first step.
+- [Make it Sustainable](https://techwithintent.org/#start): A framework for long-term change — identify your priorities, audit your tech use, determine what is optional vs. required, and create a plan for high-quality leisure to fill the void.
+- [Contact](https://techwithintent.org/#contact): How to reach the creator for questions, community presentations, or collaboration.
+
+## Key Facts and Claims (with sources)
+
+- Americans average 10 hours of screen time daily across all devices (Nielsen, 2025)
+- A baby born today will spend approximately 30 of 79 years on screens — more than sleeping (Nielsen / CDC life expectancy data)
+- Only about 10% of an Instagram feed comes from people you actually know (Meta algorithm analysis / industry research)
+- 51% of all internet traffic is now automated bots, exceeding human traffic for the first time (Imperva Bad Bot Report, 2025)
+- Over 60% of new online content has meaningful AI involvement (Graphite / Ahrefs studies, 2025)
+- Average on-screen attention span dropped from 2.5 minutes in 2004 to 47 seconds in 2024 (Gloria Mark, UC Irvine / APA)
+- IQ scores have declined approximately 7 points per generation in developed countries, first documented in Scandinavia and now confirmed by declining scores across the U.S. during the smartphone era (Bratsberg & Rogeberg, PNAS, 2018; Northwestern University, 2023)
+- 91% of participants improved in attention, mental health, or well-being after blocking mobile internet for just 2 weeks, with mental health benefits exceeding antidepressants (PNAS Nexus, 2025)
+- 4,000+ data broker companies worldwide collect and sell personal information (Privacy Rights Clearinghouse, 2025)
+- A single data broker collects approximately 11,000 data points per person (Acxiom via Tom Kemp, 2025)
+
+## Seven Recommended Actions
+
+1. Make your phone a phone again — remove everything except calls, texts, maps, music, and the camera
+2. Bring back the computer room — designate one place for internet use, keep screens out of bedrooms
+3. Remove social media from your phone — move it to your computer to transform compulsion into choice
+4. Add friction with an internet blocker — tools like Cold Turkey, Freedom, or one sec
+5. Quit social media — run towards deeper real relationships
+6. Create your curated, non-algorithmic internet — subscribe directly to trusted sources, use RSS feeds or newsletters
+7. Schedule your leisure before tech fills the void — the biggest reason people reach for phones is boredom, not addiction
+
+## Core Framework
+
+The Intentional Tech framework has three foundation questions:
+1. What are your priorities in life?
+2. What tech do you use, and what is optional vs. required?
+3. Does that tech advance your priorities?
+
+The sustainability principle: removing tech that isn't serving you only works if you have something better to run toward. Make a plan for high-quality leisure first.
+
+## About
+
+Intentional Tech is a free, non-commercial, ad-free resource. No data is collected beyond anonymous visitor counts. The site does not sell products, courses, or subscriptions. It exists to help people think critically about their relationship with technology.

@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intentional Tech</title>
+<meta name="description" content="Are you using technology on your terms — or is technology using you? A resource for building an intentional relationship with technology.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #fafaf8;
+    --muted: #999;
+    --light: #e8e8e4;
+    --card: #f2f2ee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+
+  /* ─── NAV ─── */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--paper);
+    border-bottom: 1px solid var(--light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .nav.hidden {
+    transform: translateY(-100%);
+  }
+
+  .nav.shadow {
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+  }
+
+  .nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--ink);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: var(--ink);
+  }
+
+  .nav-links a:hover::after,
+  .nav-links a.active::after {
+    width: 100%;
+  }
+
+  /* Mobile nav toggle */
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 18px;
+    position: relative;
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--ink);
+    position: absolute;
+    left: 0;
+    transition: all 0.3s ease;
+  }
+
+  .nav-toggle span:nth-child(1) { top: 0; }
+  .nav-toggle span:nth-child(2) { top: 8px; }
+  .nav-toggle span:nth-child(3) { top: 16px; }
+
+  .nav-toggle.open span:nth-child(1) {
+    top: 8px;
+    transform: rotate(45deg);
+  }
+
+  .nav-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.open span:nth-child(3) {
+    top: 8px;
+    transform: rotate(-45deg);
+  }
+
+  /* ─── CONTENT CONTAINER ─── */
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .reveal {
+    opacity: 1;
+  }
+
+  .reveal.animate {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger children */
+  .stagger > .reveal.animate:nth-child(1) { transition-delay: 0s; }
+  .stagger > .reveal.animate:nth-child(2) { transition-delay: 0.08s; }
+  .stagger > .reveal.animate:nth-child(3) { transition-delay: 0.16s; }
+  .stagger > .reveal.animate:nth-child(4) { transition-delay: 0.24s; }
+  .stagger > .reveal.animate:nth-child(5) { transition-delay: 0.32s; }
+  .stagger > .reveal.animate:nth-child(6) { transition-delay: 0.4s; }
+  .stagger > .reveal.animate:nth-child(7) { transition-delay: 0.48s; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 32px 80px;
+  }
+
+  .hero-inner {
+    max-width: 600px;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 4rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.2s forwards;
+  }
+
+  .hero .rule {
+    width: 40px;
+    height: 1px;
+    background: var(--ink);
+    margin: 0 auto 40px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+  }
+
+  .hero .question {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.65rem;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.7s forwards;
+  }
+
+  .hero .question em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .hero .anchor {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  .hero .scroll-hint {
+    margin-top: 56px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.2s forwards;
+  }
+
+  .hero .scroll-hint span {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ccc;
+    margin-bottom: 8px;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: var(--light);
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 1px;
+    height: 40px;
+    background: var(--muted);
+    animation: scrollDown 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollDown {
+    0% { top: -40px; }
+    100% { top: 40px; }
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 100px 0;
+  }
+
+  .section-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--light);
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .section-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .section-header .rule {
+    width: 40px;
+    height: 1px;
+    background: var(--ink);
+    margin: 0 auto;
+  }
+
+  .section-lead {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .section-lead p {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.35rem;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .section-lead p + p {
+    margin-top: 20px;
+  }
+
+  .section-lead em {
+    font-weight: 400;
+  }
+
+  /* ─── SECTION LABEL ─── */
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  /* ─── REASON BLOCKS (Why This Matters) ─── */
+  .reason {
+    padding: 32px 0;
+    border-top: 1px solid var(--light);
+  }
+
+  .reason:last-child {
+    border-bottom: 1px solid var(--light);
+  }
+
+  .reason h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .reason p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .reason p + p {
+    margin-top: 10px;
+  }
+
+  /* ─── GRAPHICS ─── */
+  .graphic {
+    margin: 28px 0 8px;
+    background: var(--card);
+    padding: 32px 28px;
+  }
+
+  .graphic-label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .bar-row:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .bar-label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.78rem;
+    color: var(--ink);
+    width: 160px;
+    flex-shrink: 0;
+    line-height: 1.3;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 24px;
+    background: #e4e4df;
+    position: relative;
+    margin: 0 12px;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--ink);
+  }
+
+  .bar-fill.highlight {
+    background: #555;
+  }
+
+  .bar-pct {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.82rem;
+    color: var(--ink);
+    width: 36px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .graphic-footnote {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+
+  /* Lifespan graphic */
+  .lifespan {
+    margin: 28px 0 8px;
+    background: var(--card);
+    padding: 36px 28px;
+  }
+
+  .lifespan-header {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .lifespan-bar-container {
+    margin-bottom: 28px;
+  }
+
+  .lifespan-bar-outer {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .lifespan-seg {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .seg-sleep { background: #d4d4cf; width: 33%; }
+  .seg-screens { background: var(--ink); width: 37%; }
+  .seg-else { background: #e4e4df; width: 30%; }
+
+  .lifespan-seg span {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+  }
+
+  .seg-sleep span { color: #666; }
+  .seg-screens span { color: var(--paper); }
+  .seg-else span { color: #888; }
+
+  .lifespan-labels {
+    display: flex;
+    width: 100%;
+  }
+
+  .lifespan-label-item {
+    padding: 12px 4px 0;
+  }
+
+  .legend-years {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 2rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .legend-label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ─── STATS (By the Numbers) ─── */
+  .stat {
+    padding: 28px 0;
+    border-top: 1px solid var(--light);
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    align-items: baseline;
+  }
+
+  .stat:last-child {
+    border-bottom: 1px solid var(--light);
+  }
+
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2.6rem;
+    line-height: 1;
+    color: var(--ink);
+    text-align: right;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-text {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .stat-source {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.72rem;
+    color: #bbb;
+    font-style: italic;
+  }
+
+  .stats-section {
+    margin-bottom: 48px;
+  }
+
+  /* ─── RECS (Where to Start) ─── */
+  .rec {
+    padding: 32px 0;
+    border-top: 1px solid var(--light);
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .rec:last-child {
+    border-bottom: 1px solid var(--light);
+  }
+
+  .rec-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--light);
+    padding-top: 2px;
+  }
+
+  .rec-content h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .rec-content p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .rec-content .action {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid var(--light);
+    padding-bottom: 1px;
+  }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--card);
+    padding: 36px 40px;
+  }
+
+  .card p {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .card p + p {
+    margin-top: 16px;
+  }
+
+  .card strong {
+    font-weight: 500;
+  }
+
+  .card-lg p {
+    font-size: 1.2rem;
+  }
+
+  /* ─── INTERSTITIAL ─── */
+  .interstitial {
+    text-align: center;
+    padding: 48px 0;
+  }
+
+  .interstitial p {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--muted);
+  }
+
+  /* ─── GET STARTED (Foundation) ─── */
+  .foundation-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin-bottom: 48px;
+    color: var(--ink);
+  }
+
+  .q-item {
+    padding: 28px 0;
+    border-top: 1px solid var(--light);
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .q-item:last-child {
+    border-bottom: 1px solid var(--light);
+  }
+
+  .q-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--light);
+    padding-top: 2px;
+  }
+
+  .q-content h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .q-content p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── STEPS ─── */
+  .step {
+    display: grid;
+    grid-template-columns: 1fr 20px;
+    gap: 0;
+    padding: 24px 0;
+    border-top: 1px solid var(--light);
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .step:last-child {
+    border-bottom: 1px solid var(--light);
+  }
+
+  .step-text {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.5rem;
+    color: var(--light);
+    flex-shrink: 0;
+    width: 28px;
+  }
+
+  .step-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.92rem;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+
+  .step-arrow {
+    font-size: 0.8rem;
+    color: var(--light);
+    transition: all 0.3s ease;
+  }
+
+  .step:hover .step-arrow {
+    color: var(--ink);
+    transform: translateX(3px);
+  }
+
+  .step:hover {
+    padding-left: 8px;
+  }
+
+  /* ─── CONTACT ─── */
+  .contact-section {
+    text-align: center;
+    padding: 80px 0;
+  }
+
+  .contact-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .contact-section p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 420px;
+    margin: 0 auto 32px;
+  }
+
+  .contact-link {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    padding: 14px 36px;
+    transition: all 0.3s ease;
+  }
+
+  .contact-link:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* ─── FOOTER ─── */
+  .site-footer {
+    text-align: center;
+    padding: 48px 32px 64px;
+  }
+
+  .site-footer .rule {
+    width: 40px;
+    height: 1px;
+    background: var(--light);
+    margin: 0 auto 28px;
+  }
+
+  .site-footer p {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .site-footer .copyright {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #ccc;
+    font-style: normal;
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    body { background: white; }
+    .nav { display: none; }
+    .hero { min-height: auto; padding: 40px 0; }
+    .page { max-width: 100%; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    * { animation: none !important; }
+    .step:hover { padding-left: 0; }
+    section { padding: 40px 0; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 52px;
+      left: 0;
+      right: 0;
+      background: var(--paper);
+      border-bottom: 1px solid var(--light);
+      flex-direction: column;
+      padding: 20px 32px;
+      gap: 16px;
+    }
+
+    .nav-links.open {
+      display: flex;
+    }
+
+    .nav-toggle {
+      display: block;
+    }
+
+    .hero h1 { font-size: 2.8rem; }
+    .hero .question { font-size: 1.3rem; }
+    .section-header h2 { font-size: 2rem; }
+    .section-lead p { font-size: 1.15rem; }
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 0 24px; }
+    .hero { padding: 100px 24px 60px; }
+    .hero h1 { font-size: 2.4rem; letter-spacing: 0.1em; }
+    .hero .question { font-size: 1.2rem; }
+    .section-header h2 { font-size: 1.8rem; }
+    section { padding: 72px 0; }
+    .card { padding: 28px 24px; }
+    .graphic { padding: 24px 20px; }
+    .lifespan { padding: 28px 20px; }
+    .bar-label { width: 110px; font-size: 0.72rem; }
+    .stat { grid-template-columns: 100px 1fr; gap: 16px; }
+    .stat-number { font-size: 2rem; }
+    .lifespan-label-item { padding: 8px 2px 0; }
+    .legend-years { font-size: 1.6rem; }
+    .lifespan-bar-outer { height: 32px; }
+    .lifespan-seg span { font-size: 0.65rem; }
+    .contact-link { padding: 12px 28px; font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand">Intentional Tech</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="#why">Why</a>
+      <a href="#numbers">Numbers</a>
+      <a href="#start">Start</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<div class="hero" id="top">
+  <div class="hero-inner">
+    <h1>Intentional Tech</h1>
+    <div class="rule"></div>
+    <p class="question">
+      Are you using technology to advance your&nbsp;priorities — or is technology <em>using&nbsp;you</em>?
+    </p>
+    <p class="anchor">Less autopilot. More intention.</p>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ WHY THIS MATTERS ═══════════════ -->
+<div class="section-divider"></div>
+<section id="why">
+  <div class="page">
+
+    <div class="section-header reveal">
+      <h2>Why This Matters</h2>
+      <div class="rule"></div>
+    </div>
+
+    <div class="section-lead reveal">
+      <p>The slot machine in your pocket is designed to capture and hold your&nbsp;attention.</p>
+      <p>Understanding how is not paranoia. It's <em>literacy</em>.</p>
+    </div>
+
+    <div class="stagger">
+
+      <div class="reason reveal">
+        <h3>Your attention is the product</h3>
+        <p>You pay for the "free" platforms you use every day with your time and attention. Your attention is sold to advertisers, and the algorithms are optimized to keep you scrolling indefinitely. The longer you stay, the more they earn.</p>
+
+        <div class="graphic">
+          <div class="graphic-label">What you actually see on Instagram — per 100 pieces of content</div>
+          <div class="bar-row">
+            <div class="bar-label">Ads</div>
+            <div class="bar-track"><div class="bar-fill" style="width: 20%"></div></div>
+            <div class="bar-pct">~20</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Recommended from strangers</div>
+            <div class="bar-track"><div class="bar-fill" style="width: 40%"></div></div>
+            <div class="bar-pct">~40</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Accounts you follow but aren't close&nbsp;to</div>
+            <div class="bar-track"><div class="bar-fill highlight" style="width: 30%"></div></div>
+            <div class="bar-pct">~30</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">People you actually know</div>
+            <div class="bar-track"><div class="bar-fill" style="width: 10%"></div></div>
+            <div class="bar-pct">~10</div>
+          </div>
+          <div class="graphic-footnote">You opened Instagram to see what your friends are up to. You're getting that about 10% of the time.</div>
+        </div>
+      </div>
+
+      <div class="reason reveal">
+        <h3>Autopilot is the default</h3>
+        <p>None of this requires a conspiracy. It simply requires that you don't think about it. The entire system depends on you operating on autopilot by default.</p>
+      </div>
+
+      <div class="reason reveal">
+        <h3>Your life is what you pay attention to</h3>
+        <p>You habitually pick up your phone to check the time. Next thing you know, you've spent an hour on "social" media, doomscrolling content from people you don't know while consuming hundreds of ads. Pulling you away from higher priorities, relationships, and meaning. Ultimately, your life is what you spend your time on.</p>
+
+        <div class="lifespan">
+          <div class="lifespan-header">A baby born today — 79 years, three ways to spend them</div>
+          <div class="lifespan-bar-container">
+            <div class="lifespan-bar-outer">
+              <div class="lifespan-seg seg-sleep"><span>33%</span></div>
+              <div class="lifespan-seg seg-screens"><span>37%</span></div>
+              <div class="lifespan-seg seg-else"><span>30%</span></div>
+            </div>
+            <div class="lifespan-labels">
+              <div class="lifespan-label-item" style="width:33%">
+                <div class="legend-years">26 yrs</div>
+                <div class="legend-label">Sleeping</div>
+              </div>
+              <div class="lifespan-label-item" style="width:37%">
+                <div class="legend-years">30 yrs</div>
+                <div class="legend-label">Screens &amp; Media</div>
+              </div>
+              <div class="lifespan-label-item" style="width:30%">
+                <div class="legend-years">23 yrs</div>
+                <div class="legend-label">Everything Else</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reason reveal">
+        <h3>AI accelerates the problem</h3>
+        <p>The algorithms keep getting smarter, faster, and more personal. AI generates content tailored to keep you engaged, predicts your behavior before you act on it, and makes decisions about you that you'll never see. Over half the content you encounter online is now AI-generated. This isn't coming. It's here.</p>
+      </div>
+
+      <div class="reason reveal">
+        <h3>It's worse than just distraction</h3>
+        <p>Consuming the internet on autopilot doesn't just waste your time. The research shows it is actively changing your brain and how you feel. Your ability to focus is declining. Measurable intelligence is declining for the first time in a century. Passive "social" media use is associated with increased loneliness, anxiety, and lower well-being. It erodes your sleep, real human relationships, and your ability to sit with your thoughts for 5 minutes.</p>
+        <p>Most scrolling leaves you feeling worse, not better. The next time you pick up your "smart"phone, picture an adult pacifier.</p>
+      </div>
+
+    </div>
+
+    <div class="reveal" style="margin-top: 48px;">
+      <div class="card card-lg" style="text-align: center;">
+        <p>You don't need to go off the grid. You do need to stop and consider whether you are using tech on your terms or tech is using&nbsp;you.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════ BY THE NUMBERS ═══════════════ -->
+<div class="section-divider"></div>
+<section id="numbers">
+  <div class="page">
+
+    <div class="section-header reveal">
+      <h2>By the Numbers</h2>
+      <div class="rule"></div>
+    </div>
+
+    <div class="section-lead reveal">
+      <p>The scale of our relationship with technology is hard to feel in the moment. The numbers make it harder to ignore.</p>
+    </div>
+
+    <!-- Your Life on Screens -->
+    <p class="section-label reveal">Your Life on Screens</p>
+    <div class="stats-section stagger">
+      <div class="stat reveal">
+        <span class="stat-number">10 hrs</span>
+        <span class="stat-text">The average American adult consumes 10 hours of media per day across TV, streaming, phones, tablets, and computers. That's 62% of your waking life.
+          <span class="stat-source">Nielsen, 2025</span>
+        </span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-number">30 yrs</span>
+        <span class="stat-text">At current rates, a baby born today will spend 30 of their 79 years on screens — more than any other single activity in their life, including sleep.
+          <span class="stat-source">Nielsen / CDC life expectancy data, 2025</span>
+        </span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-number">23 yrs</span>
+        <span class="stat-text">What's left for everything else. Every meal, every conversation, every walk outside, every moment of uninterrupted presence with the people you love — all of it has to fit in what's left over after screens.
+          <span class="stat-source">Calculation based on current media consumption data</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- What You're Actually Seeing -->
+    <p class="section-label reveal">What You're Actually Seeing</p>
+    <div class="stats-section stagger">
+      <div class="stat reveal">
+        <span class="stat-number">~10%</span>
+        <span class="stat-text">The share of your Instagram feed that comes from people you actually know. The rest is ads, algorithmic recommendations, and commercial content from strangers.
+          <span class="stat-source">Meta algorithm analysis / industry research, 2025</span>
+        </span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-number">51%</span>
+        <span class="stat-text">Of all internet traffic is now generated by automated bots — exceeding human traffic for the first time.
+          <span class="stat-source">Imperva Bad Bot Report, 2025</span>
+        </span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-number">60%+</span>
+        <span class="stat-text">Of new content published online has meaningful AI involvement. Much of what you read, watch, and scroll past was not made by a person.
+          <span class="stat-source">Graphite / Ahrefs studies, 2025</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- The Kids -->
+    <p class="section-label reveal">The Kids</p>
+    <div class="stats-section stagger">
+      <div class="stat reveal">
+        <span class="stat-number">1,500</span>
+        <span class="stat-text">Photos of the average child posted online by their parents before age 5. Their digital footprint starts before they can speak.
+          <span class="stat-source">Ofcom / Northumbria University research</span>
+        </span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-number">70,000</span>
+        <span class="stat-text">Posts the average child will make on social media on their own by age 18. A permanent, searchable record created before adulthood.
+          <span class="stat-source">UK Children's Commissioner, "Who Knows What About Me"</span>
+        </span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-number">41%</span>
+        <span class="stat-text">Of American teenagers who spend more than 8 hours a day on screens. The equivalent of a full-time job — at age 14.
+          <span class="stat-source">Backlinko / Common Sense Media, 2025</span>
+        </span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-number">80%</span>
+        <span class="stat-text">Of children have an online presence by age 2. Most of it created by their parents, none of it with their consent.
+          <span class="stat-source">Ofcom, 2025</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Your Brain -->
+    <p class="section-label reveal">Your Brain</p>
+    <div class="stats-section stagger">
+      <div class="stat reveal">
+        <span class="stat-number">47 sec</span>
+        <span class="stat-text">How long the average person can focus on a single screen before switching. In 2004, it was 2.5 minutes. Your attention span has been cut by two thirds.
+          <span class="stat-source">Gloria Mark, UC Irvine / APA, 2025</span>
+        </span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-number">7 pts</span>
+        <span class="stat-text">The IQ decline per generation first documented in Scandinavia, now confirmed by declining scores across the U.S. during the smartphone era.
+          <span class="stat-source">Bratsberg &amp; Rogeberg, PNAS, 2018; Northwestern University, 2023</span>
+        </span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-number">91%</span>
+        <span class="stat-text">Of participants who improved in attention, mental health, or well-being after blocking mobile internet for just 2 weeks. The mental health benefit exceeded antidepressants.
+          <span class="stat-source">PNAS Nexus, 2025</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Your Data -->
+    <p class="section-label reveal">Your Data</p>
+    <div class="stats-section stagger">
+      <div class="stat reveal">
+        <span class="stat-number">4,000+</span>
+        <span class="stat-text">Data broker companies worldwide that collect and sell personal information about people they've never met.
+          <span class="stat-source">Privacy Rights Clearinghouse, 2025</span>
+        </span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-number">11,000</span>
+        <span class="stat-text">Data points collected per person by a single broker — covering your location, purchases, health, politics, and habits. You are the product being sold.
+          <span class="stat-source">Acxiom via Tom Kemp, 2025</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top: 24px;">
+      <div class="card" style="text-align: center;">
+        <p>None of these numbers are inevitable. Every one of them is the result of choices — most of which were made for you, not by you. The first step is seeing the pattern. The next step is deciding what to do about&nbsp;it.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════ WHERE TO START ═══════════════ -->
+<div class="section-divider"></div>
+<section id="start">
+  <div class="page">
+
+    <div class="section-header reveal">
+      <h2>Where to Start</h2>
+      <div class="rule"></div>
+    </div>
+
+    <div class="section-lead reveal">
+      <p>Knowing the problem is step one. Here are concrete, proven changes you can&nbsp;make</p>
+    </div>
+
+    <div class="stagger">
+
+      <div class="rec reveal">
+        <span class="rec-num">1</span>
+        <div class="rec-content">
+          <h3>Make your phone a phone again</h3>
+          <p>The "smart"phone is the single biggest source of compulsive, unintentional tech use. The next time you look at your "smart"phone, picture an adult pacifier. If a basic "dumb"phone is too extreme for you, turn your pocket slot machine back into a phone — calls, texts, maps, music, and the camera. Everything else can wait until you're at a computer and choosing to engage.</p>
+          <span class="action">Try it for one week</span>
+        </div>
+      </div>
+
+      <div class="rec reveal">
+        <span class="rec-num">2</span>
+        <div class="rec-content">
+          <h3>Bring back the computer room</h3>
+          <p>For a generation, the internet lived in one room of the house. You went to it on purpose and left when you were done. Designate one place for laptop and internet use. Keep screens out of bedrooms. The research on sleep, anxiety, and focus all points in the same direction: physical separation from screens works.</p>
+          <span class="action">Choose your room</span>
+        </div>
+      </div>
+
+      <div class="rec reveal">
+        <span class="rec-num">3</span>
+        <div class="rec-content">
+          <h3>Remove "social" media from your phone</h3>
+          <p>If you're not ready to quit entirely, start here. The harm of social media is overwhelmingly tied to the phone — the bottomless scroll in bed, in line, at lunch. Moving social media to your computer transforms it from a compulsion into a choice. You can still use it. You'll just use it less, and on your terms.</p>
+          <span class="action">Delete the apps today</span>
+        </div>
+      </div>
+
+      <div class="rec reveal">
+        <span class="rec-num">4</span>
+        <div class="rec-content">
+          <h3>Add friction with an internet blocker</h3>
+          <p>Tools like Cold Turkey, Freedom, or one sec put a barrier between impulse and action. Block or limit the algorithm driven internet. Add a delay before opening certain apps. Use a timer to turn off your internet at least an hour before bed. The research on habit formation is clear: small amounts of friction dramatically reduce unwanted behavior. You're not relying on willpower — you're designing your environment.</p>
+          <span class="action">Install a blocker this week</span>
+        </div>
+      </div>
+
+      <div class="rec reveal">
+        <span class="rec-num">5</span>
+        <div class="rec-content">
+          <h3>Quit "social" media</h3>
+          <p>Run towards deeper real relationships. The evidence linking heavy, passive, social media use to increased anxiety, decreased attention, and reduced life satisfaction is strong and growing.</p>
+          <span class="action">Delete your accounts</span>
+        </div>
+      </div>
+
+      <div class="rec reveal">
+        <span class="rec-num">6</span>
+        <div class="rec-content">
+          <h3>Create your curated, non-algorithmic, internet — don't let algorithms choose for you</h3>
+          <p>Algorithms decide what news, opinions, and content you see based on what keeps you engaged — not what's accurate, important, or good for you. Take that power back. Subscribe directly to sources you trust. Use RSS feeds or newsletters. When you use AI tools, use them to find and summarize information you're looking for — on your terms, for your purposes. Stop passively consuming whatever a feed serves up.</p>
+          <span class="action">Pick three trusted sources</span>
+        </div>
+      </div>
+
+      <div class="rec reveal">
+        <span class="rec-num">7</span>
+        <div class="rec-content">
+          <h3>Schedule your leisure before tech fills the void</h3>
+          <p>The biggest reason people reach for their phones is boredom, not addiction. If you don't have a plan for your downtime, the path of least resistance leads back to the adult pacifier. Decide in advance what you'll do with your evenings, your weekends, your commute. Hobbies, exercise, cooking, conversation. The more specific the plan, the less power the default has.</p>
+          <span class="action">Write down three alternatives</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="reveal" style="margin-top: 48px;">
+      <div class="card" style="text-align: center;">
+        <p>You don't have to do all seven. Pick the one that feels most doable and <strong>start there.</strong> One deliberate change creates momentum for the next.</p>
+      </div>
+    </div>
+
+    <div class="interstitial reveal">
+      <p>The goal isn't to be a luddite. The goal is to turn off autopilot.</p>
+    </div>
+
+    <!-- Foundation: Get Started -->
+    <p class="section-label reveal">Make it Sustainable</p>
+    <p class="foundation-intro reveal">Build your foundation.</p>
+
+    <div class="stagger">
+      <div class="q-item reveal">
+        <span class="q-number">1</span>
+        <div class="q-content">
+          <h3>What are your priorities in life?</h3>
+          <p>Relationships, health, work, creativity, rest — and beyond the basics, what do you actually want for leisure?</p>
+        </div>
+      </div>
+      <div class="q-item reveal">
+        <span class="q-number">2</span>
+        <div class="q-content">
+          <h3>What tech do you use?</h3>
+          <p>Your devices, your tools — social media, AI, streaming, news. What is optional and what is required?</p>
+        </div>
+      </div>
+      <div class="q-item reveal">
+        <span class="q-number">3</span>
+        <div class="q-content">
+          <h3>Does that tech advance your priorities?</h3>
+          <p>If yes, are there downsides? How can you minimize them? Find your balance.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top: 48px;">
+      <div class="card">
+        <p>Pulling the plug on tech that's using you sounds great — but it's only sustainable if you have something better to run toward.</p>
+        <p><strong>Make a plan for high-quality leisure.</strong> Books, hobbies, play, exercise, cooking, time with people — even streaming, if it's chosen on purpose. The emptiness is what pulls you back. Fill it first.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top: 48px;">
+      <p class="section-label">Your Next Steps</p>
+      <div class="step">
+        <div class="step-text">
+          <span class="step-num">1</span>
+          <span class="step-title">Answer the foundation questions</span>
+        </div>
+        <span class="step-arrow">→</span>
+      </div>
+      <div class="step">
+        <div class="step-text">
+          <span class="step-num">2</span>
+          <span class="step-title">Create your plan for high-quality leisure</span>
+        </div>
+        <span class="step-arrow">→</span>
+      </div>
+      <div class="step">
+        <div class="step-text">
+          <span class="step-num">3</span>
+          <span class="step-title">Give up optional tech for one week — turn your pocket slot machine back into a phone</span>
+        </div>
+        <span class="step-arrow">→</span>
+      </div>
+      <div class="step">
+        <div class="step-text">
+          <span class="step-num">4</span>
+          <span class="step-title">Re-introduce optional tech deliberately</span>
+        </div>
+        <span class="step-arrow">→</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<div class="section-divider"></div>
+<section id="contact">
+  <div class="page">
+    <div class="contact-section reveal">
+      <h2>Get in Touch</h2>
+      <p>Questions, ideas, or want to bring this to your community? Reach out directly — no forms, no data collected.</p>
+      <a href="mailto:hello@techwithintent.org" class="contact-link">hello@techwithintent.org</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="site-footer">
+  <div class="rule"></div>
+  <p>Less autopilot. More intention.</p>
+  <p class="copyright">Intentional Tech © 2026</p>
+</footer>
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<script>
+  // Scroll-triggered reveal — progressive enhancement
+  const revealEls = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window) {
+    // Add animate class to enable transitions
+    revealEls.forEach(el => el.classList.add('animate'));
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // Fallback: if nothing visible after 1.5s, show everything
+    setTimeout(() => {
+      revealEls.forEach(el => el.classList.add('visible'));
+    }, 1500);
+  }
+
+  // Nav: hide on scroll down, show on scroll up
+  let lastScroll = 0;
+  const nav = document.getElementById('nav');
+
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > 100) {
+      nav.classList.add('shadow');
+    } else {
+      nav.classList.remove('shadow');
+    }
+
+    if (currentScroll > lastScroll && currentScroll > 200) {
+      nav.classList.add('hidden');
+    } else {
+      nav.classList.remove('hidden');
+    }
+
+    lastScroll = currentScroll;
+  }, { passive: true });
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (window.pageYOffset >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  }, { passive: true });
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinksEl = document.getElementById('navLinks');
+
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('open');
+    navLinksEl.classList.toggle('open');
+  });
+
+  /
